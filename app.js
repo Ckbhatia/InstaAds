@@ -7,12 +7,14 @@ var indexRouter = require("./routes/index");
 
 // Connect mongoose
 mongoose.connect(
-  process.env.MONGOURL || "mongodb://localhost/conduit_api",
+  process.env.MONGOURL || "mongodb://localhost/instaAds",
   { useUnifiedTopology: true, useNewUrlParser: true },
   err => {
     err ? console.log(err) : console.log("success mongodb connected");
   }
 );
+
+mongoose.set("useCreateIndex", true);
 
 var app = express();
 
@@ -20,6 +22,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", indexRouter);
+app.use("/api", indexRouter);
 
 module.exports = app;
