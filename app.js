@@ -4,6 +4,10 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 
 var indexRouter = require("./routes/index");
+var userRouter = require("./routes/user");
+
+// Import dotenv
+require("dotenv").config();
 
 // Connect mongoose
 mongoose.connect(
@@ -23,5 +27,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api", indexRouter);
+app.use("/api/user", userRouter);
 
 module.exports = app;
