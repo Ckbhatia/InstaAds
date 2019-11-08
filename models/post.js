@@ -9,6 +9,7 @@ const postSchema = Schema(
     media: String,
     location: String,
     author: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    isApprove: { type: Boolean, default: false },
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }]
   },
   { timestamps: true }
