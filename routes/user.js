@@ -25,9 +25,22 @@ router.post("/login", (req, res) => {
         .json({ status: "failed", message: "Invaild password" });
     }
     let token = await Auth.genToken(user.id);
-    res
-      .status(200)
-      .json({ status: "success", message: "User logged in", token });
+
+    // Admin login request
+    if (email === process.env.email || username === process.env.username) {
+      return res.status(200).json({
+        status: "success",
+        message: "Admin logged in",
+        token,
+        isInstaAdmin: true
+      });
+    }
+    // User request
+    else {
+      return res
+        .status(200)
+        .json({ status: "success", message: "User logged in", token });
+    }
   });
 });
 
