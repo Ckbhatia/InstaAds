@@ -26,4 +26,28 @@ router.get("/dashboard", (req, res) => {
   }
 });
 
+// Patch post
+router.patch("/post/:postid", (req, res) => {
+  // Checks if the user is admin
+  if (req.isInstaAdmin) {
+    Post.findByIdAndUpdate(
+      req.params.postid,
+      { isApprove: true },
+      (error, post) => {
+        if (error)
+          return req.json({
+            message: "There's an error",
+            status: "failed",
+            error
+          });
+        res
+          .status(200)
+          .json({ message: "Post approved successfully", status: "success" });
+      }
+    );
+  } else {
+    res.status(401).json({ message: "User not authorized", status: "failed" });
+  }
+});
+
 module.exports = router;
