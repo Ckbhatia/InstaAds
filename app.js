@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
+var adminRouter = require("./routes/admin");
 
 // Import dotenv
 require("dotenv").config();
@@ -28,5 +29,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api", indexRouter);
 app.use("/api/user", userRouter);
+app.use("/api/admin", adminRouter);
 
 module.exports = app;
