@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
 var adminRouter = require("./routes/admin");
+var postRouter = require("./routes/post");
 
 // Import dotenv
 require("dotenv").config();
@@ -20,6 +21,7 @@ mongoose.connect(
 );
 
 mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
 
 var app = express();
 
@@ -30,5 +32,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api", indexRouter);
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/post", postRouter);
 
 module.exports = app;
