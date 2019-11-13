@@ -24,7 +24,33 @@ router.get("/:username", async (req, res) => {
   } catch (error) {
     res
       .status(400)
-      .json({ message: "There's an error", status: "success", error });
+      .json({ message: "There's an error", status: "failed", error });
+  }
+});
+
+// Put username
+router.put("/:username", async (req, res) => {
+  try {
+    const profile = await User.findOne({ username: req.params.username });
+    // Checks if the current user is logged in
+    if (profile._id == req.user.id) {
+      const updateProfile = await User.findOneAndUpdate(
+        { username: req.params.username },
+        req.body
+      );
+      res.status(200).json({
+        message: "Profile updated successfully",
+        status: "success"
+      });
+    } else {
+      res
+        .status(401)
+        .json({ message: "User not authorized", status: "failed" });
+    }
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "There's an error", status: "failed", error });
   }
 });
 
