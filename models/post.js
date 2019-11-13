@@ -10,7 +10,8 @@ const postSchema = Schema(
     location: String,
     author: { type: Object, require: true },
     isApprove: { type: Boolean, default: false },
-    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }]
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    like: [{ type: Schema.Types.ObjectId, ref: "User" }]
   },
   { timestamps: true }
 );
