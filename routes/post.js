@@ -104,4 +104,33 @@ router.patch("/:postid/like", async (req, res) => {
   }
 });
 
+// Patch the post { unlike }
+router.patch("/:postid/unlike", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postid);
+    // Checks if post liked already
+    if (post.like.includes(req.user.id)) {
+      const updatePost = await Post.findByIdAndUpdate(
+        req.params.postid,
+        { $pull: { like: req.user.id } },
+        { safe: true, upsert: true, new: true }
+      );
+      res.status(200).json({
+        message: "Post updated successfully",
+        status: "success",
+        post: updatePost
+      });
+    } else {
+      res.json({
+        message: "Post doesn't contain any like from current user",
+        status: "failed"
+      });
+    }
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "There's an error", status: "failed", error });
+  }
+});
+
 module.exports = router;
