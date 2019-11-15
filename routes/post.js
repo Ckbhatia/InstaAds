@@ -78,4 +78,30 @@ router.delete("/:postid", async (req, res) => {
   }
 });
 
+// Patch the post { like }
+router.patch("/:postid/like", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postid);
+    // Checks if post liked already
+    if (post.like.includes(req.user.id)) {
+      return res.json({ message: "Post liked already", status: "failed" });
+    } else {
+      const updatePost = await Post.findByIdAndUpdate(
+        req.params.postid,
+        { $push: { like: req.user.id } },
+        { safe: true, upsert: true, new: true }
+      );
+      res.status(200).json({
+        message: "Post updated successfully",
+        status: "success",
+        post: updatePost
+      });
+    }
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "There's an error", status: "failed", error });
+  }
+});
+
 module.exports = router;
