@@ -11,7 +11,14 @@ const postSchema = Schema(
     author: { type: Object, require: true },
     isApprove: { type: Boolean, default: false },
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
-    like: [{ type: Schema.Types.ObjectId, ref: "User" }]
+    like: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    views: { type: Number, default: 0 },
+    ads: {
+      adsName: String,
+      price: Number,
+      createdDate: Date,
+      expireDate: Date
+    }
   },
   { timestamps: true }
 );
