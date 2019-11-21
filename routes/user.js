@@ -3,6 +3,12 @@ var router = express.Router();
 const User = require("../models/user");
 const Auth = require("../auth/auth");
 
+/* Get current user */
+router.get("/", Auth.verToken, (req, res) => {
+  const user = req.user;
+  res.json({ user });
+});
+
 /* POST login user. */
 router.post("/login", (req, res) => {
   const { email, username, password } = req.body;
